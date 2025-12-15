@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Toolbar, Typography } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { useLocation, useParams } from "react-router-dom";
 import fetchModel from "../../lib/fetchModelData";
 import "./styles.css";
-function TopBar() {
+
+function TopBar({ currentUser, onLogout }) {
   const location = useLocation();
-  // tạo biến userID chưa id trên url
   const { userId } = useParams();
-  // state lưu giá trị (user) và hàm lưu state
   const [user, setUser] = useState(null);
-  // Chỉ lo fetch user
+
+  // chỉ lo fetch user trên URL để hiển thị tiêu đề bên phải
   useEffect(() => {
     if (!userId) {
       setUser(null);
@@ -17,13 +17,13 @@ function TopBar() {
     }
 
     fetchModel(`/api/user/${userId}`)
-      .then((data) => setUser(data)) // data là Ob user từ DB
+      .then((data) => setUser(data))
       .catch((err) => {
         console.log(err);
         setUser(null);
       });
   }, [userId]);
-  // Tính titleRight dựa trên user + URL
+
   const path = location.pathname;
   let titleRight = "";
   if (user) {
@@ -33,14 +33,39 @@ function TopBar() {
       titleRight = `${user.first_name} ${user.last_name}`;
     }
   }
+
+  let leftContent;
+  if (currentUser) {
+    leftContent = (
+      <>
+        <Typography variant="h5" sx={{ marginRight: 2 }}>
+          Hi {currentUser.first_name}
+        </Typography>
+        <Button color="inherit" onClick={onLogout}>
+          LOGOUT
+        </Button>
+      </>
+    );
+  } else {
+    leftContent = (
+      <Typography variant="h5" sx={{ marginRight: 2 }}>
+        Please Login
+      </Typography>
+    );
+  }
+
   return (
-    // layer này sẽ là layer đầu tiên "absolute"
-    // flex -> nằm trên một hàng
-    // space-between ->2 đầu trái phải
-    // h5 -> cỡ chữ lớn (heading)
     <AppBar className="topbar-appBar" position="absolute">
-      <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h5">Your Name Here</Typography>
+      <Toolbar
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {leftContent}
+        </div>
         <Typography variant="h6">{titleRight}</Typography>
       </Toolbar>
     </AppBar>

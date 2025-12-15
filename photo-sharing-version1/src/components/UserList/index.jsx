@@ -1,9 +1,7 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
+import { List, ListItemButton, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
-import { List, ListItem, ListItemText, Divider } from "@mui/material";
-//container cho ds,từng dòng trong ds,phần text trong từng dòng, đường kẻ ngăn cách
 import fetchModel from "../../lib/fetchModelData";
-import "./styles.css";
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -11,22 +9,22 @@ function UserList() {
   useEffect(() => {
     fetchModel("/api/user/list")
       .then((data) => setUsers(data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error("UserList error:", err);
+        setUsers([]);
+      });
   }, []);
 
   return (
-    // nav -> đây là vùng điều hướng
-    // Fragment
-    // ListItem: biến dòng thành button, ấn button -> điều hướng tới link
-    // ListItemText: hiển thị text của dòng
     <List component="nav">
-      {users.map((user) => (
-        <Fragment key={user._id}>
-          <ListItem button component={Link} to={`/users/${user._id}`}>
-            <ListItemText primary={`${user.first_name} ${user.last_name}`} />
-          </ListItem>
-          <Divider />
-        </Fragment>
+      {users.map((u) => (
+        <ListItemButton
+          component={Link}
+          to={`/users/${u._id}`}
+          key={u._id}
+        >
+          <ListItemText primary={`${u.first_name} ${u.last_name}`} />
+        </ListItemButton>
       ))}
     </List>
   );

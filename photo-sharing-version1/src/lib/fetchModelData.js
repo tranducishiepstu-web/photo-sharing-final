@@ -1,8 +1,10 @@
-const BASE_URL = "https://l3k7g5-8081.csb.app";
+const BASE_URL = "https://k4dcrq-8081.csb.app";
 
 async function fetchModel(url) {
   try {
-    const response = await fetch(BASE_URL + url);
+    const response = await fetch(BASE_URL + url, {
+      credentials: "include", // gửi kèm cookie session
+    });
 
     if (!response.ok) {
       throw new Error("Backend error: " + response.statusText);
