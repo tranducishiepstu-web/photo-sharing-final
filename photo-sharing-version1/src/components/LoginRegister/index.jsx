@@ -1,26 +1,33 @@
+// hiển thị form Login
+// nhận login_name ng dùng gõ
+// Gửi request POST /admin/login lên backend.
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "https://k4dcrq-8081.csb.app";
-
+// onLogin chính là handleLoginSuccess được App truyền xuống.
 function LoginRegister({ onLogin }) {
+  // giá trị và hàm set giá trị
   const [loginName, setLoginName] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // hàm để xử lý sự kiện bấm vào nút Login
+    e.preventDefault(); // ngăn reload lại trang
 
     if (!loginName.trim()) {
+      // nếu rỗng
       setError("Please enter login name");
       return;
     }
 
     try {
-      setError("");
+      setError(""); // xóa lỗi cũ trước khi gửi req mới
 
       const res = await fetch(`${BASE_URL}/admin/login`, {
+        // gửi req tới BE
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,13 +45,14 @@ function LoginRegister({ onLogin }) {
         return;
       }
 
-      const user = await res.json();
+      const user = await res.json(); // nhận json được BE gửi
 
       if (onLogin) {
+        // tương đương setCurrentUser(user);
         onLogin(user);
       }
 
-      navigate(`/users/${user._id}`);
+      navigate(`/users/${user._id}`); // login thành công -> chuyển tới URL này
     } catch (err) {
       console.error("Login error:", err);
       setError("Cannot connect to server");
@@ -52,6 +60,7 @@ function LoginRegister({ onLogin }) {
   };
 
   return (
+    // Xây dựng giao diện
     <div style={{ padding: 20 }}>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
@@ -60,8 +69,8 @@ function LoginRegister({ onLogin }) {
           <br />
           <input
             type="text"
-            value={loginName}
-            onChange={(e) => setLoginName(e.target.value)}
+            value={loginName} // giá trị hiển thị trong ô lấy từ state
+            onChange={(e) => setLoginName(e.target.value)} // cập nhật state
           />
         </label>
         <br />

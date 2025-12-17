@@ -1,4 +1,4 @@
-const BASE_URL = "https://k4dcrq-8081.csb.app";
+const BASE_URL = "https://k4dcrq-8081.csb.app"; // gọi API để lấy/gửi DL với BE
 
 async function fetchModel(url) {
   try {

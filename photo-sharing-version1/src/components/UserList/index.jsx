@@ -18,11 +18,7 @@ function UserList() {
   return (
     <List component="nav">
       {users.map((u) => (
-        <ListItemButton
-          component={Link}
-          to={`/users/${u._id}`}
-          key={u._id}
-        >
+        <ListItemButton component={Link} to={`/users/${u._id}`} key={u._id}>
           <ListItemText primary={`${u.first_name} ${u.last_name}`} />
         </ListItemButton>
       ))}
