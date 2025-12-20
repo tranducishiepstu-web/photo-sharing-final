@@ -131,7 +131,7 @@ function UserPhotos() {
           <CardMedia
             component="img"
             height="300"
-            image={`/images/${p.file_name}`}
+            image={`${BASE_URL}/images/${p.file_name}`}
             alt="User"
           />
 

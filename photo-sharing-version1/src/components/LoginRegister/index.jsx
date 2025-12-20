@@ -185,11 +185,10 @@ function LoginRegister({ onLogin }) {
       <br />
       <br />
       <br />
-      <br />
-      <br />
+
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <hr />
-      <h3>Register</h3>
+
+      <h2>Register</h2>
       <div style={{ marginTop: 10 }}>
         <label>
           Login name:
