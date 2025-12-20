@@ -187,6 +187,8 @@ function LoginRegister({ onLogin }) {
       <br />
       <br />
       <br />
+      <br />
+      <br />
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <h2>Register</h2>
