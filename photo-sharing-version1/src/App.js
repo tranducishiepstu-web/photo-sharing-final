@@ -2,7 +2,12 @@ import "./App.css";
 
 import React, { useState, useEffect } from "react";
 import { Grid, Paper } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 
 import TopBar from "./components/TopBar";
 import UserDetail from "./components/UserDetail";
@@ -85,58 +90,56 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/users/:userId"
-          element={
-            <MainLayout currentUser={currentUser} onLogout={handleLogout}>
-              {currentUser ? (
-                <UserDetail />
-              ) : (
-                <LoginRegister onLogin={handleLoginSuccess} />
-              )}
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/photos/:userId"
-          element={
-            <MainLayout currentUser={currentUser} onLogout={handleLogout}>
-              {currentUser ? (
-                <UserPhotos />
-              ) : (
-                <LoginRegister onLogin={handleLoginSuccess} />
-              )}
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/users"
-          element={
-            <MainLayout currentUser={currentUser} onLogout={handleLogout}>
-              {currentUser ? (
-                <UserList />
-              ) : (
-                <LoginRegister onLogin={handleLoginSuccess} />
-              )}
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <MainLayout currentUser={currentUser} onLogout={handleLogout}>
-              {currentUser ? (
-                <UserList />
-              ) : (
-                <LoginRegister onLogin={handleLoginSuccess} />
-              )}
-            </MainLayout>
-          }
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route
+        path="/users/:userId"
+        element={
+          <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+            {currentUser ? (
+              <UserDetail />
+            ) : (
+              <LoginRegister onLogin={handleLoginSuccess} />
+            )}
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/photos/:userId"
+        element={
+          <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+            {currentUser ? (
+              <UserPhotos />
+            ) : (
+              <LoginRegister onLogin={handleLoginSuccess} />
+            )}
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+            {currentUser ? (
+              <UserList />
+            ) : (
+              <LoginRegister onLogin={handleLoginSuccess} />
+            )}
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/"
+        element={
+          <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+            {currentUser ? (
+              <UserList />
+            ) : (
+              <LoginRegister onLogin={handleLoginSuccess} />
+            )}
+          </MainLayout>
+        }
+      />
+    </Routes>
   );
 };
 
