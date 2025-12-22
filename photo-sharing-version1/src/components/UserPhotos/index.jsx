@@ -12,7 +12,7 @@ import {
 import fetchModel from "../../lib/fetchModelData";
 import "./styles.css";
 
-const BASE_URL = "https://k4dcrq-8081.csb.app";
+const BASE_URL = "https://4ck2j9-8081.csb.app";
 
 function UserPhotos() {
   const { userId } = useParams();

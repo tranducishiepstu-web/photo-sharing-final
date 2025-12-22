@@ -4,7 +4,7 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import fetchModel from "../../lib/fetchModelData";
 import "./styles.css";
 
-const BASE_URL = "https://k4dcrq-8081.csb.app";
+const BASE_URL = "https://4ck2j9-8081.csb.app";
 
 // 2 prop được truyền từ App.js
 function TopBar({ currentUser, onLogout }) {
@@ -96,7 +96,7 @@ function TopBar({ currentUser, onLogout }) {
           Hi {currentUser.first_name}
         </Typography>
 
-        {/* ✅ Add Photo */}
+        {/* Add Photo */}
         <Button color="inherit" onClick={handleClickAddPhoto}>
           ADD PHOTO
         </Button>

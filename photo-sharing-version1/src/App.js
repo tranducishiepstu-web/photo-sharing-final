@@ -15,11 +15,11 @@ import UserList from "./components/UserList";
 import UserPhotos from "./components/UserPhotos";
 import LoginRegister from "./components/LoginRegister";
 
-const BASE_URL = "https://k4dcrq-8081.csb.app";
+const BASE_URL = "https://4ck2j9-8081.csb.app";
 
 // Layout chung: TopBar + (có thể) UserList + main content
 const MainLayout = ({ children, currentUser, onLogout }) => (
-  <Grid container spacing={2}>
+  <Grid container spacing={2}> 
     <Grid item xs={12}>
       <TopBar currentUser={currentUser} onLogout={onLogout} />
     </Grid>
@@ -44,7 +44,7 @@ const MainLayout = ({ children, currentUser, onLogout }) => (
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
-
+  const navigate = useNavigate();
   // Hỏi BE xem session hiện tại có user không
   useEffect(() => {
     async function checkSession() {
@@ -71,7 +71,7 @@ const App = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${BASE_URL}/admin/logout`, {
+      await fetch(`${BASE_URL}/admin/logout`, { // gọi post api/admin/logout
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,6 +82,7 @@ const App = () => {
       console.error("Logout error:", err);
     } finally {
       setCurrentUser(null);
+      navigate("/", { replace: true });
     }
   };
 
@@ -91,6 +92,22 @@ const App = () => {
 
   return (
     <Routes>
+      <Route
+        path="/"
+        element={
+          <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+            <LoginRegister mode="login" onLogin={handleLoginSuccess} />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+            <LoginRegister mode="register" onLogin={handleLoginSuccess} />
+          </MainLayout>
+        }
+      />
       <Route
         path="/users/:userId"
         element={
