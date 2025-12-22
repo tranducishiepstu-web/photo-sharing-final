@@ -45,13 +45,13 @@ function TopBar({ currentUser, onLogout }) {
   const handleClickAddPhoto = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = ""; // reset để chọn lại cùng 1 file vẫn trigger onChange
-      fileInputRef.current.click();
+      fileInputRef.current.click(); // click mở hộp thoại để chọn file
     }
   };
 
   // Khi user chọn file => upload
   const handleFileSelected = async (e) => {
-    const file = e.target.files && e.target.files[0]; // lấy file được chọn
+    const file = e.target.files && e.target.files[0]; // lấy file được chọn nếu ko có file thì return
     if (!file) return;
 
     try {
@@ -62,7 +62,7 @@ function TopBar({ currentUser, onLogout }) {
       // gửi dl tới BE
       const res = await fetch(`${BASE_URL}/photos/new`, {
         method: "POST",
-        body: formData,
+        body: formData, // gửi formData
         credentials: "include",
       });
 

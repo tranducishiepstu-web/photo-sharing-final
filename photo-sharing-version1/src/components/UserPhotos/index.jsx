@@ -36,7 +36,7 @@ function UserPhotos() {
   const handleChangeCommentText = (photoId, value) => {
     setCommentTextByPhoto((prev) => ({
       ...prev, // copy lại state cũ
-      [photoId]: value,
+      [photoId]: value, // [photo] là key động theo biến, vì có nhiều ảnh nên cần làm vậy để lưu được value của mọi cmt ở mọi ảnh
     }));
     // Khi user bắt đầu gõ lại thì xóa lỗi cũ cho photo đó
     setCommentErrorByPhoto((prev) => ({
@@ -47,7 +47,7 @@ function UserPhotos() {
 
   // Submit comment cho 1 photo
   const handleAddComment = async (photoId) => {
-    const text = (commentTextByPhoto[photoId] || "").trim();
+    const text = (commentTextByPhoto[photoId] || "").trim(); //trạng thái text đang gõ của ảnh
 
     // check rỗng ở FE trước (UX tốt hơn)
     if (!text) {
@@ -128,6 +128,7 @@ function UserPhotos() {
   }
 
   return (
+    // divider là đường phân cách
     <div>
       {photos.map((p) => (
         <Card key={p._id} style={{ margin: "20px 0" }}>
