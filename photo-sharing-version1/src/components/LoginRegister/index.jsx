@@ -16,7 +16,7 @@ function LoginRegister({ onLogin, mode = "login" }) {
   const [info, setInfo] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // ngăn reload
 
     if (!loginName.trim()) {
       setError("Please enter login name");
@@ -32,8 +32,8 @@ function LoginRegister({ onLogin, mode = "login" }) {
 
       const res = await fetch(`${BASE_URL}/admin/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ login_name: loginName, password }),
+        headers: { "Content-Type": "application/json" }, // báo server biết body là json
+        body: JSON.stringify({ login_name: loginName, password }), // biến ob thành jsson để gửi
         credentials: "include",
       });
 
@@ -116,7 +116,7 @@ function LoginRegister({ onLogin, mode = "login" }) {
       setRegDescription("");
       setRegOccupation("");
 
-      // ✅ quay lại login sau khi register thành công
+      // quay lại login sau khi register thành công
       navigate("/", { state: { registered: data.login_name } });
     } catch (err) {
       console.error("Register error:", err);

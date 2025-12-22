@@ -81,7 +81,9 @@ function TopBar({ currentUser, onLogout }) {
 
       // Indication + chuyển sang trang photos của currentUser để thấy ảnh mới
       alert("Photo uploaded successfully!");
-      navigate(`/photos/${currentUser._id}`);
+      navigate(`/photos/${currentUser._id}`, {
+        state: { refresh: Date.now() },
+      });
     } catch (err) {
       console.error("Upload error:", err);
       alert("Cannot connect to server");

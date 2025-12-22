@@ -19,7 +19,7 @@ const BASE_URL = "https://4ck2j9-8081.csb.app";
 
 // Layout chung: TopBar + (có thể) UserList + main content
 const MainLayout = ({ children, currentUser, onLogout }) => (
-  <Grid container spacing={2}> 
+  <Grid container spacing={2}>
     <Grid item xs={12}>
       <TopBar currentUser={currentUser} onLogout={onLogout} />
     </Grid>
@@ -44,6 +44,7 @@ const MainLayout = ({ children, currentUser, onLogout }) => (
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
+
   const navigate = useNavigate();
   // Hỏi BE xem session hiện tại có user không
   useEffect(() => {
@@ -71,7 +72,8 @@ const App = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${BASE_URL}/admin/logout`, { // gọi post api/admin/logout
+      await fetch(`${BASE_URL}/admin/logout`, {
+        // gọi post api/admin/logout
         method: "POST",
         headers: {
           "Content-Type": "application/json",

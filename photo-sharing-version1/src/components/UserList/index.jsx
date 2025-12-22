@@ -19,7 +19,12 @@ function UserList() {
     <List component="nav">
       {users.map((u) => (
         <ListItemButton component={Link} to={`/users/${u._id}`} key={u._id}>
-          <ListItemText primary={`${u.first_name} ${u.last_name}`} />
+          <ListItemText
+            primary={`${u.first_name} ${u.last_name}`}
+            secondary={`Photos: ${u.photo_count || 0} • Comments: ${
+              u.comment_count || 0
+            }`}
+          />
         </ListItemButton>
       ))}
     </List>

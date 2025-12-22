@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
+
 import {
   Typography,
   Card,
@@ -17,6 +18,8 @@ const BASE_URL = "https://4ck2j9-8081.csb.app";
 function UserPhotos() {
   const { userId } = useParams();
   const [photos, setPhotos] = useState([]);
+  const location = useLocation();
+  const refresh = location.state?.refresh;
 
   // Map lưu text comment theo từng photoId
   const [commentTextByPhoto, setCommentTextByPhoto] = useState({});
@@ -27,7 +30,7 @@ function UserPhotos() {
     fetchModel(`/api/photo/${userId}`)
       .then((data) => setPhotos(data))
       .catch((err) => console.log(err));
-  }, [userId]);
+  }, [userId, refresh]);
 
   // Update text đang gõ cho 1 photo cụ thể
   const handleChangeCommentText = (photoId, value) => {
@@ -148,8 +151,14 @@ function UserPhotos() {
               <Card key={c._id} style={{ marginTop: "10px", padding: "10px" }}>
                 <Typography variant="body1">{c.comment}</Typography>
                 <Typography variant="caption">
-                  — {c.user.first_name} {c.user.last_name} (
-                  {new Date(c.date_time).toLocaleString()})
+                  —{" "}
+                  <Link
+                    to={`/users/${c.user._id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    {c.user.first_name} {c.user.last_name}
+                  </Link>{" "}
+                  ({new Date(c.date_time).toLocaleString()})
                 </Typography>
               </Card>
             ))}
