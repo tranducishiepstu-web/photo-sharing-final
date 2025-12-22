@@ -15,22 +15,6 @@ function LoginRegister({ onLogin, mode = "login" }) {
   //  info message (ví dụ: register xong quay về login)
   const [info, setInfo] = useState("");
 
-  useEffect(() => {
-    // Nếu register xong navigate("/login", { state: { registered: "abc" }})
-    // thì login page sẽ đọc state này để show message
-    if (mode === "login" && location.state && location.state.registered) {
-      setInfo(
-        `Registered successfully: ${location.state.registered}. Please login.`
-      );
-
-      // xóa state để không hiện lại lần sau
-      navigate(location.pathname, { replace: true, state: null });
-    } else {
-      setInfo("");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -143,11 +127,11 @@ function LoginRegister({ onLogin, mode = "login" }) {
   // ===== UI theo mode =====
   if (mode === "register") {
     return (
-      <div style={{ padding: 5 }}>
+      <div>
         <h2>Register</h2>
 
         <div
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}
+          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}
         >
           <label>
             Login name:
