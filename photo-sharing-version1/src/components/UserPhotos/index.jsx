@@ -13,9 +13,9 @@ import {
 import fetchModel from "../../lib/fetchModelData";
 import "./styles.css";
 
-const BASE_URL = "https://4ck2j9-8081.csb.app";
+const BASE_URL = "https://mrj3rp-8081.csb.app";
 
-function UserPhotos() {
+function UserPhotos({ currentUser }) {
   const { userId } = useParams();
   const [photos, setPhotos] = useState([]);
   const location = useLocation();
@@ -25,6 +25,13 @@ function UserPhotos() {
   const [commentTextByPhoto, setCommentTextByPhoto] = useState({});
   // Map lưu lỗi theo từng photoId
   const [commentErrorByPhoto, setCommentErrorByPhoto] = useState({});
+
+  //HAI-1
+  const [editing, setEditing] = useState(null);
+  // editing = { photoId, commentId } hoặc null -> đánh dấu cmt nào đang đc edit, thuộc photo nào
+  const [editText, setEditText] = useState("");
+  // lưu nội dung mới
+  //HAI-1
 
   useEffect(() => {
     fetchModel(`/api/photo/${userId}`)
@@ -123,6 +130,104 @@ function UserPhotos() {
     }
   };
 
+  /*  const handleDeleteComment = async (photoId, commentId) => { // MỘT
+    if (!window.confirm("Delete this comment?")) return;
+    try {
+      const res = await fetch(
+        `${BASE_URL}/commentsOfPhoto/${photoId}/${commentId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (!res.ok) {
+        let msg = "Failed to delete comment";
+        try {
+          const data = await res.json();
+          if (data && data.message) msg = data.message;
+        } catch (e) {}
+        alert(msg);
+        return;
+      }
+      // update UI ngay: remove comment khỏi đúng photo
+      setPhotos((prevPhotos) =>
+        prevPhotos.map((p) => {
+          if (p._id !== photoId) return p;
+          return {
+            ...p,
+            comments: p.comments.filter((c) => c._id !== commentId),
+          };
+        })
+      );
+    } catch (err) {
+      console.error("Delete comment error:", err);
+      alert("Cannot connect to server");
+    }
+  }; */
+  {
+    /*
+  //HAI-2
+  const startEditComment = (photoId, cmt) => {
+    // id của photo và bản thân cmt
+    setEditing({ photoId, commentId: cmt._id });
+    // web biết đang sửa cmt nào thuộc ảnh nào
+    setEditText(cmt.comment || "");
+    // đưa nd hiện tại vào text
+  };
+  //HAI-2
+*/
+  }
+  {
+    /*//HAI-3
+  const saveEditComment = async (photoId, commentId) => {
+    const text = (editText || "").trim();
+    if (!text) return;
+
+    try {
+      const res = await fetch(
+        `${BASE_URL}/commentsOfPhoto/${photoId}/${commentId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ comment: text }),
+        }
+      );
+
+      if (!res.ok) {
+        return;
+      }
+
+      const updated = await res.json(); // BE trả về cmt mới để hiển thị
+
+      setPhotos((prev) =>
+        prev.map((p) =>
+          p._id !== photoId
+            ? p
+            : {
+                ...p,
+                comments: p.comments.map((c) =>
+                  c._id !== commentId
+                    ? c
+                    : {
+                        ...c,
+                        comment: updated.comment,
+                        date_time: updated.date_time,
+                      }
+                ),
+              }
+        )
+      );
+
+      setEditing(null);
+      setEditText("");
+    } catch (err) {
+      console.error("Edit comment error:", err);
+    }
+  };
+  //HAI-3
+*/
+  }
   if (!photos || photos.length === 0) {
     return <Typography>No photos available.</Typography>;
   }
@@ -148,21 +253,105 @@ function UserPhotos() {
 
             <Typography variant="h6">Comments:</Typography>
 
-            {p.comments.map((c) => (
-              <Card key={c._id} style={{ marginTop: "10px", padding: "10px" }}>
-                <Typography variant="body1">{c.comment}</Typography>
-                <Typography variant="caption">
-                  —{" "}
-                  <Link
-                    to={`/users/${c.user._id}`}
-                    style={{ textDecoration: "none" }}
+            {p.comments.map((c) => {
+              //const isMine = // MỘT
+              //currentUser &&
+              //c.user &&
+              //String(c.user._id) === String(currentUser._id);
+
+              {
+                /*//HAI-4
+              const isMine =
+                currentUser &&
+                c.user &&
+                String(c.user._id) === String(currentUser._id);
+
+              const isEditing =
+                editing &&
+                String(editing.photoId) === String(p._id) &&
+                String(editing.commentId) === String(c._id);
+            //HAI-4 */
+              }
+
+              return (
+                <Card
+                  key={c._id}
+                  style={{ marginTop: "10px", padding: "10px" }}
+                >
+                  <Typography variant="body1">{c.comment}</Typography>
+
+                  {/*HAI-5*
+                  {isEditing ? (
+                    <TextField
+                      fullWidth
+                      size="small"
+                      autoFocus
+                      value={editText}
+                      onChange={(e) => setEditText(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          saveEditComment(p._id, c._id);
+                        }
+                        if (e.key === "Escape") {
+                          setEditing(null);
+                          setEditText("");
+                        }
+                      }}
+                      style={{ marginTop: 4 }}
+                    />
+                  ) : (
+                    <Typography variant="body1">{c.comment}</Typography>
+                  )}
+                  *HAI-5*/}
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginTop: 6,
+                    }}
                   >
-                    {c.user.first_name} {c.user.last_name}
-                  </Link>{" "}
-                  ({new Date(c.date_time).toLocaleString()})
-                </Typography>
-              </Card>
-            ))}
+                    <Typography variant="caption">
+                      —{" "}
+                      <Link
+                        to={`/users/${c.user._id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        {c.user.first_name} {c.user.last_name}
+                      </Link>{" "}
+                      ({new Date(c.date_time).toLocaleString()})
+                    </Typography>
+
+                    {/*HAI-6*
+                    {isMine ? (
+                      <Button
+                        size="small"
+                        variant="text"
+                        onClick={() => startEditComment(p._id, c)}
+                        disabled={isEditing}
+                      >
+                        {"EDIT"}
+                      </Button>
+                    ) : null}
+                    *HAI-6*/}
+
+                    {/* //MỘT
+                    {isMine ? (
+                      <Button
+                        size="small"
+                        color="error"
+                        variant="text"
+                        onClick={() => handleDeleteComment(p._id, c._id)}
+                      >
+                        DELETE
+                      </Button>
+                    ) : null} */}
+                  </div>
+                </Card>
+              );
+            })}
 
             {/* Form thêm comment mới cho photo p */}
             <Divider style={{ margin: "15px 0" }} />

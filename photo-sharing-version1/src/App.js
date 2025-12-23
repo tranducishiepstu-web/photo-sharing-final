@@ -14,8 +14,9 @@ import UserDetail from "./components/UserDetail";
 import UserList from "./components/UserList";
 import UserPhotos from "./components/UserPhotos";
 import LoginRegister from "./components/LoginRegister";
+import BlogPost from "./components/BlogPost";
 
-const BASE_URL = "https://4ck2j9-8081.csb.app";
+const BASE_URL = "https://mrj3rp-8081.csb.app";
 
 // Layout chung: TopBar + (có thể) UserList + main content
 const MainLayout = ({ children, currentUser, onLogout }) => (
@@ -127,7 +128,19 @@ const App = () => {
         element={
           <MainLayout currentUser={currentUser} onLogout={handleLogout}>
             {currentUser ? (
-              <UserPhotos />
+              <UserPhotos currentUser={currentUser} />
+            ) : (
+              <LoginRegister onLogin={handleLoginSuccess} />
+            )}
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/posts/:userId"
+        element={
+          <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+            {currentUser ? (
+              <BlogPost />
             ) : (
               <LoginRegister onLogin={handleLoginSuccess} />
             )}

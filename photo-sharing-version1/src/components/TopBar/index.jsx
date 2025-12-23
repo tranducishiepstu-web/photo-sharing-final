@@ -4,7 +4,7 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import fetchModel from "../../lib/fetchModelData";
 import "./styles.css";
 
-const BASE_URL = "https://4ck2j9-8081.csb.app";
+const BASE_URL = "https://mrj3rp-8081.csb.app";
 
 // 2 prop được truyền từ App.js
 function TopBar({ currentUser, onLogout }) {
@@ -38,6 +38,8 @@ function TopBar({ currentUser, onLogout }) {
       titleRight = `Photos of ${user.first_name} ${user.last_name}`;
     } else if (path.startsWith("/users/")) {
       titleRight = `${user.first_name} ${user.last_name}`;
+    } else if (path.startsWith("/posts/")) {
+      titleRight = `Blog of ${user.first_name} ${user.last_name}`;
     }
   }
 

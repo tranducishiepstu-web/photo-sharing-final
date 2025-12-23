@@ -35,6 +35,8 @@ function UserDetail() {
       <Typography>Description: {user.description}</Typography>
       <br />
       <Link to={`/photos/${user._id}`}>Photos</Link>
+      <br />
+      <Link to={`/posts/${user._id}`}>Posts</Link>
     </div>
   );
 }
