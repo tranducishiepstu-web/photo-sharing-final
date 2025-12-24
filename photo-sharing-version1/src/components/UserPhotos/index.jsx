@@ -229,7 +229,8 @@ function UserPhotos({ currentUser }) {
 */
   }
   // BA3
-  {/*
+  {
+    /*
   const handleDeletePhoto = async (photoId) => {
     if (!window.confirm("Delete this photo?")) return;
 
@@ -253,8 +254,41 @@ function UserPhotos({ currentUser }) {
       console.error("Delete photo error:", err);
       alert("Cannot connect to server");
     }
-  }; */}
+  }; */
+  }
 
+  {
+    /*
+  const handleLikePhoto = async (photoId) => {
+    // LKKK
+    try {
+      const res = await fetch(`${BASE_URL}/photos/${photoId}/like`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        let msg = "Failed to like photo";
+        try {
+          const data = await res.json();
+          if (data?.message) msg = data.message;
+        } catch (e) {}
+        alert(msg);
+        return;
+      }
+
+      const data = await res.json(); // { _id, like }
+
+      setPhotos((prev) =>
+        prev.map((p) => (p._id !== photoId ? p : { ...p, like: data.like }))
+      );
+    } catch (err) {
+      console.error("Like photo error:", err);
+      alert("Cannot connect to server");
+    }
+  };
+*/
+  }
   if (!photos || photos.length === 0) {
     return <Typography>No photos available.</Typography>;
   }
@@ -274,9 +308,19 @@ function UserPhotos({ currentUser }) {
             <Typography variant="subtitle2">
               Date: {new Date(p.date_time).toLocaleString()}
             </Typography>
+            {/*
+            <Button //LKKK
+              variant="outlined"
+              size="small"
+              onClick={() => handleLikePhoto(p._id)}
+            >
+              LIKE
+            </Button>
+            <Typography variant="body2">Likes: {p.like ?? 0}</Typography>{" "}
             
+            */}
             <Divider style={{ margin: "10px 0" }} />
-          {/*  {currentUser && String(p.user_id) === String(currentUser._id) ? ( //BA3
+            {/*  {currentUser && String(p.user_id) === String(currentUser._id) ? ( //BA3
               <Button           
                  variant="contained" 
                  color="error"
@@ -287,7 +331,6 @@ function UserPhotos({ currentUser }) {
               </Button>
             ) : null} */}
             <Typography variant="h6">Comments:</Typography>
-
             {p.comments.map((c) => {
               //const isMine = // MỘT
               //currentUser &&
@@ -386,11 +429,9 @@ function UserPhotos({ currentUser }) {
                 </Card>
               );
             })}
-
             {/* Form thêm comment mới cho photo p */}
             <Divider style={{ margin: "15px 0" }} />
             <Typography variant="subtitle1">Add a comment</Typography>
-
             <TextField
               fullWidth // chiếm toàn bộ chiều ngang vùng chứa
               size="small" // làm input nhỏ gọn hơn
@@ -399,13 +440,11 @@ function UserPhotos({ currentUser }) {
               onChange={(e) => handleChangeCommentText(p._id, e.target.value)}
               style={{ marginTop: 8 }}
             />
-
             {commentErrorByPhoto[p._id] ? (
               <Typography style={{ color: "red", marginTop: 6 }}>
                 {commentErrorByPhoto[p._id]}
               </Typography>
             ) : null}
-
             <Button
               variant="contained"
               style={{ marginTop: 10 }}

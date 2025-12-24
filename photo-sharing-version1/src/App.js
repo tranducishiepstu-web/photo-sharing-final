@@ -159,7 +159,6 @@ const App = () => {
           </MainLayout>
         }
       />
-      <Route path="/change-password" element={<ChangePassword />} />
       <Route
         path="/change-password"
         element={
