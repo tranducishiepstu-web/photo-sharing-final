@@ -15,7 +15,8 @@ import UserList from "./components/UserList";
 import UserPhotos from "./components/UserPhotos";
 import LoginRegister from "./components/LoginRegister";
 import BlogPost from "./components/BlogPost";
-
+import EditProfile from "./components/EditProfile";
+import ChangePassword from "./components/ChangePassword";
 const BASE_URL = "https://mrj3rp-8081.csb.app";
 
 // Layout chung: TopBar + (có thể) UserList + main content
@@ -143,6 +144,30 @@ const App = () => {
               <BlogPost />
             ) : (
               <LoginRegister onLogin={handleLoginSuccess} />
+            )}
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/profile/edit"
+        element={
+          <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+            <EditProfile
+              currentUser={currentUser}
+              onProfileUpdated={setCurrentUser}
+            />
+          </MainLayout>
+        }
+      />
+      <Route path="/change-password" element={<ChangePassword />} />
+      <Route
+        path="/change-password"
+        element={
+          <MainLayout currentUser={currentUser} onLogout={handleLogout}>
+            {currentUser ? (
+              <UserList />
+            ) : (
+              <ChangePassword onLogin={handleLoginSuccess} />
             )}
           </MainLayout>
         }

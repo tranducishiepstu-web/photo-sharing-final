@@ -37,6 +37,8 @@ function UserDetail() {
       <Link to={`/photos/${user._id}`}>Photos</Link>
       <br />
       <Link to={`/posts/${user._id}`}>Posts</Link>
+      <br />
+      <Link to="/change-password">Change Password</Link>
     </div>
   );
 }

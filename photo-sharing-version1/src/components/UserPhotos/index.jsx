@@ -228,6 +228,33 @@ function UserPhotos({ currentUser }) {
   //HAI-3
 */
   }
+  // BA3
+  {/*
+  const handleDeletePhoto = async (photoId) => {
+    if (!window.confirm("Delete this photo?")) return;
+
+    try {
+      const res = await fetch(`${BASE_URL}/photos/${photoId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        let msg = "Failed to delete photo";
+        try {
+          const data = await res.json();
+          if (data && data.message) msg = data.message;
+        } catch (e) {}
+        alert(msg);
+        return;
+      }
+      setPhotos((prev) => prev.filter((p) => p._id !== photoId));
+    } catch (err) {
+      console.error("Delete photo error:", err);
+      alert("Cannot connect to server");
+    }
+  }; */}
+
   if (!photos || photos.length === 0) {
     return <Typography>No photos available.</Typography>;
   }
@@ -243,14 +270,22 @@ function UserPhotos({ currentUser }) {
             image={`${BASE_URL}/images/${p.file_name}`}
             alt="User"
           />
-
           <CardContent>
             <Typography variant="subtitle2">
               Date: {new Date(p.date_time).toLocaleString()}
             </Typography>
-
+            
             <Divider style={{ margin: "10px 0" }} />
-
+          {/*  {currentUser && String(p.user_id) === String(currentUser._id) ? ( //BA3
+              <Button           
+                 variant="contained" 
+                 color="error"
+                 size="small"
+                 style={{ marginTop: 8 }}
+                 onClick={() => handleDeletePhoto(p._id)}>
+                  DELETE PHOTO
+              </Button>
+            ) : null} */}
             <Typography variant="h6">Comments:</Typography>
 
             {p.comments.map((c) => {
@@ -272,7 +307,6 @@ function UserPhotos({ currentUser }) {
                 String(editing.commentId) === String(c._id);
             //HAI-4 */
               }
-
               return (
                 <Card
                   key={c._id}

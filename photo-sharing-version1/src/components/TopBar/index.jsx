@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams, useNavigate, Link } from "react-router-dom";
 import fetchModel from "../../lib/fetchModelData";
 import "./styles.css";
 
@@ -109,6 +109,9 @@ function TopBar({ currentUser, onLogout }) {
           LOGOUT
         </Button>
 
+        <Button color="inherit" component={Link} to="/profile/edit">
+          EDIT PROFILE
+        </Button>
         {/* input file ẩn */}
         <input
           ref={fileInputRef}
